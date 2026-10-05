@@ -149,7 +149,10 @@ echo ""
 SUCCESS=0
 FAILED=0
 
-for entry in "arm64-v8a:aarch64" "armeabi-v7a:arm" "x86_64:x86_64"; do
+# armeabi-v7a dropped by the StockClaw fork: the OpenClaw plugin SDK requires
+# Node 24.16+, and Node 24 publishes no linux-armv7l build, so 32-bit ARM
+# devices cannot run StockClaw at all.
+for entry in "arm64-v8a:aarch64" "x86_64:x86_64"; do
     IFS=':' read -r abi deb_arch <<< "$entry"
 
     if fetch_for_abi "$abi" "$deb_arch"; then
@@ -162,7 +165,7 @@ for entry in "arm64-v8a:aarch64" "armeabi-v7a:arm" "x86_64:x86_64"; do
 done
 
 echo "=== Summary ==="
-echo "Success: $SUCCESS / 3"
+echo "Success: $SUCCESS / 2"
 if [ "$FAILED" -gt 0 ]; then
     echo "Failed: $FAILED"
 fi

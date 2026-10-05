@@ -92,7 +92,9 @@ jobs:
           # A missing one only shows up at runtime as
           # "CANNOT LINK EXECUTABLE ... library not found", i.e. the app fails
           # setup with PROOT_ERROR on a user's device rather than failing here.
-          for abi in arm64-v8a armeabi-v7a x86_64; do
+          # armeabi-v7a dropped by the StockClaw fork (Node 24 has no
+          # linux-armv7l build; the plugin SDK needs Node 24.16+).
+          for abi in arm64-v8a x86_64; do
             for lib in libproot.so libprootloader.so libtalloc.so libandroid-shmem.so; do
               FILE="flutter_app/android/app/src/main/jniLibs/${abi}/${lib}"
               if [ ! -f "$FILE" ]; then
@@ -150,8 +152,8 @@ jobs:
           cp flutter_app/build/app/outputs/flutter-apk/app-release.apk \
              "artifacts/OpenClaw-v${VERSION}-universal.apk"
 
-          # Per-ABI APKs
-          for abi in arm64-v8a armeabi-v7a x86_64; do
+          # Per-ABI APKs (armeabi-v7a dropped, see above)
+          for abi in arm64-v8a x86_64; do
             SRC="flutter_app/build/app/outputs/flutter-apk/app-${abi}-release.apk"
             if [ -f "$SRC" ]; then
               cp "$SRC" "artifacts/OpenClaw-v${VERSION}-${abi}.apk"
@@ -209,7 +211,6 @@ jobs:
               `| Architecture | Download |`,
               `|---|---|`,
               `| arm64-v8a (recommended) | [OpenClaw-v${version}-arm64-v8a.apk](${runUrl}#artifacts) |`,
-              `| armeabi-v7a (32-bit) | [OpenClaw-v${version}-armeabi-v7a.apk](${runUrl}#artifacts) |`,
               `| x86_64 (emulator) | [OpenClaw-v${version}-x86_64.apk](${runUrl}#artifacts) |`,
               `| Universal (all ABIs) | [OpenClaw-v${version}-universal.apk](${runUrl}#artifacts) |`,
               `| App Bundle (Play Store) | [OpenClaw-v${version}.aab](${runUrl}#artifacts) |`,
@@ -334,7 +335,6 @@ jobs:
             echo "| File | Description |"
             echo "|------|-------------|"
             echo "| \`OpenClaw-v${VERSION}-arm64-v8a.apk\` | Most modern Android phones (recommended) |"
-            echo "| \`OpenClaw-v${VERSION}-armeabi-v7a.apk\` | Older 32-bit ARM devices |"
             echo "| \`OpenClaw-v${VERSION}-x86_64.apk\` | Emulators / x86 devices |"
             echo "| \`OpenClaw-v${VERSION}-universal.apk\` | All architectures (larger) |"
             echo "| \`OpenClaw-v${VERSION}.aab\` | Android App Bundle (Play Store) |"

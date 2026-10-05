@@ -4,7 +4,7 @@
 [![Build Flutter APK & AAB](https://github.com/mithun50/openclaw-termux/actions/workflows/flutter-build.yml/badge.svg)](https://github.com/mithun50/openclaw-termux/actions/workflows/flutter-build.yml)
 [![npm version](https://img.shields.io/npm/v/openclaw-termux?color=blue&label=npm)](https://www.npmjs.com/package/openclaw-termux)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js-22-green?logo=node.js)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-24-green?logo=node.js)](https://nodejs.org/)
 [![Android](https://img.shields.io/badge/Android-10%2B-brightgreen?logo=android)](https://www.android.com/)
 [![Flutter](https://img.shields.io/badge/Flutter-3.44-02569B?logo=flutter)](https://flutter.dev/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/mithun50/openclaw-termux/pulls)
@@ -79,7 +79,7 @@ OpenClaw brings the [OpenClaw](https://github.com/openclaw/openclaw) AI gateway 
 ## Features
 
 ### Flutter App
-- **One-Tap Setup** - Downloads Ubuntu rootfs, Node.js 22, and OpenClaw automatically
+- **One-Tap Setup** - Downloads Ubuntu rootfs, Node.js 24, and OpenClaw automatically
 - **Built-in Terminal** - Full terminal emulator with extra keys toolbar, copy/paste, clickable URLs
 - **Gateway Controls** - Start/stop gateway with status indicator and health checks
 - **AI Providers** - Configure API keys and select models for 9 providers (Anthropic, OpenAI, Google Gemini, OpenRouter, NVIDIA NIM, DeepSeek, xAI, MiniMax, Ollama)
@@ -156,7 +156,7 @@ openclawx nodes describe --node <id> # shows effective invoke commands
 Camera, screen, sensor, flash and location commands need the app in the foreground - the app is brought forward automatically when a request arrives, so keep the screen unlocked.
 
 ### Termux CLI
-- **One-Command Setup** - Installs proot-distro, Ubuntu, Node.js 22, and OpenClaw
+- **One-Command Setup** - Installs proot-distro, Ubuntu, Node.js 24, and OpenClaw
 - **Bionic Bypass** - Fixes `os.networkInterfaces()` crash on Android's Bionic libc
 - **Smart Loading** - Shows spinner until the gateway is ready
 - **Pass-through Commands** - Run any OpenClaw command via `openclawx`
@@ -215,7 +215,7 @@ openclawx setup
 |-------------|---------|
 | **Android** | 10 or higher (API 29) |
 | **Storage** | ~500MB for Ubuntu + Node.js + OpenClaw |
-| **Architectures** | arm64-v8a, armeabi-v7a, x86_64 |
+| **Architectures** | arm64-v8a, x86_64 (**armeabi-v7a dropped**: Node 24 has no linux-armv7l build, and the StockClaw plugin SDK requires Node 24.16+) |
 | **Termux** (CLI only) | From [F-Droid](https://f-droid.org/packages/com.termux/) (NOT Play Store) |
 
 ---
@@ -281,7 +281,7 @@ Use it for scrape tweets, search tweets, search tweet replies, follower export, 
 ┌────────────────────┼──────────────────────────────┐
 │  proot-distro      │              Ubuntu          │
 │  ┌─────────────────┴──────────────────────────┐   │
-│  │   Node.js 22.23 + Bionic Bypass            │   │
+│  │   Node.js 24.18 + Bionic Bypass            │   │
 │  │   ┌─────────────────────────────────────┐  │   │
 │  │   │  OpenClaw AI Gateway                │  │   │
 │  │   │  http://localhost:18789             │  │   │
@@ -549,7 +549,7 @@ proot-distro install ubuntu
 ```bash
 proot-distro login ubuntu
 apt update && apt install -y curl
-curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
 apt install -y nodejs
 npm install -g openclaw
 ```

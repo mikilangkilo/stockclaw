@@ -54,16 +54,20 @@ android {
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
 
-        // StockClaw fork: armeabi-v7a removed.
-        // Node 24 (required by the OpenClaw plugin SDK, >= 24.16) ships no
-        // linux-armv7l build, so `scripts/fetch-proot-binaries.sh` no longer
-        // produces jniLibs/armeabi-v7a. Without this filter Flutter would still
-        // emit an armeabi-v7a APK - and the universal APK would include those
-        // ABI slices with no proot libraries, i.e. it would install on a 32-bit
-        // device and then fail during setup.
-        ndk {
-            abiFilters 'arm64-v8a', 'x86_64'
-        }
+        // StockClaw fork: armeabi-v7a removed. Node 24 (required by the OpenClaw
+        // plugin SDK, >= 24.16) ships no linux-armv7l build, so
+        // scripts/fetch-proot-binaries.sh no longer produces
+        // jniLibs/armeabi-v7a - and the universal APK / AAB would otherwise
+        // carry an ABI slice with no proot libraries, which installs on a 32-bit
+        // device and then fails during setup.
+        //
+        // Do NOT express this as `ndk { abiFilters ... }`: Gradle rejects it with
+        //   "Conflicting configuration : ... in ndk abiFilters cannot be present
+        //    when splits abi filters are set"
+        // because `flutter build apk --split-per-abi` sets splits.abi.filters.
+        // The supported mechanism is Flutter's --target-platform, which must be
+        // passed at every build invocation that ships an APK/AAB. See
+        // scripts/build-apk.sh, .github/workflows/flutter-build.yml and README.
     }
 
     if (hasKeystore) {

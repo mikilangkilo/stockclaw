@@ -128,17 +128,23 @@ jobs:
         working-directory: flutter_app
         run: flutter test
 
+      # --target-platform restricts the ABIs Flutter emits. The StockClaw fork
+      # dropped armeabi-v7a (Node 24 has no linux-armv7l build, and the plugin
+      # SDK needs Node 24.16+), and scripts/fetch-proot-binaries.sh no longer
+      # produces jniLibs/armeabi-v7a. Expressing this via ndk abiFilters is not
+      # possible: Gradle rejects it when splits.abi.filters is set, which
+      # --split-per-abi does. Every APK/AAB invocation must pass this flag.
       - name: Build fat APK (all ABIs)
         working-directory: flutter_app
-        run: flutter build apk --release
+        run: flutter build apk --release --target-platform android-arm64,android-x64
 
       - name: Build per-ABI APKs
         working-directory: flutter_app
-        run: flutter build apk --release --split-per-abi
+        run: flutter build apk --release --split-per-abi --target-platform android-arm64,android-x64
 
       - name: Build AAB (App Bundle)
         working-directory: flutter_app
-        run: flutter build appbundle --release
+        run: flutter build appbundle --release --target-platform android-arm64,android-x64
 
       - name: Rename and collect artifacts
         id: apks

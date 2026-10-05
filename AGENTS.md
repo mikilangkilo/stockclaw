@@ -48,7 +48,7 @@ Always run these before claiming a change works:
 cd flutter_app
 flutter analyze          # must report 0 errors
 flutter test             # must be green
-flutter build apk --release
+flutter build apk --release --target-platform android-arm64,android-x64
 
 cd ..
 npm test                 # includes the no-dash and version-consistency checks

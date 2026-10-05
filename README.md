@@ -189,7 +189,8 @@ Or build from source:
 ```bash
 git clone https://github.com/mithun50/openclaw-termux.git
 cd openclaw-termux/flutter_app
-flutter build apk --release
+# --target-platform: this fork dropped armeabi-v7a (see Requirements above)
+flutter build apk --release --target-platform android-arm64,android-x64
 ```
 
 ### Termux CLI

@@ -26,7 +26,10 @@ echo ""
 
 # Step 3: Build APK
 echo "[3/3] Building release APK..."
-flutter build apk --release
+# --target-platform is required: the StockClaw fork dropped armeabi-v7a
+# (Node 24 has no linux-armv7l build), and it cannot be expressed as
+# ndk abiFilters because Flutter's --split-per-abi sets splits.abi.filters.
+flutter build apk --release --target-platform android-arm64,android-x64
 echo ""
 
 APK_PATH="$FLUTTER_DIR/build/app/outputs/flutter-apk/app-release.apk"

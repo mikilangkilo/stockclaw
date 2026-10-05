@@ -1,0 +1,27 @@
+{
+  "id": "stockclaw-plugin",
+  "name": "StockClaw",
+  "description": "A股/港美股 行情、信号与持仓跟踪工具集。",
+  "version": "0.1.0",
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "siliconflowApiKey": {
+        "type": "string",
+        "description": "硅基流动 API Key（用于 deepseek-vl2 视觉分析）"
+      },
+      "siliconflowBaseUrl": {
+        "type": "string",
+        "description": "硅基流动 Base URL，默认 https://api.siliconflow.cn/v1"
+      }
+    }
+  },
+  "activation": {
+    "onStartup": true
+  },
+  "contracts": {
+    "tools": [
+      "stock_vision_analyze"
+    ]
+  }
+}
